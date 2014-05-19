@@ -1,3 +1,6 @@
+$do_registration = false
+$registration_interval = 1 # 1 for stress test. Normally 300
+
 include apt
 apt::source { 'puppetlabs':
   location   => 'http://apt.puppetlabs.com',
@@ -56,34 +59,36 @@ class { '::mcollective':
 Service['mcollective'] ->
 class { 'lots_of_mcollective': }
 
-file {
-  '/usr/local/share/mcollective/mcollective/registration':
-    ensure => directory,
-    owner  => root,
-    group  => root,
-    mode   => '0755';
-  '/usr/local/share/mcollective/mcollective/registration/meta.rb':
-    source => 'puppet:///modules/mcollective_support/meta.rb',
-    owner  => root,
-    group  => root,
-    mode   => '0644';
-  '/usr/local/share/mcollective/mcollective/agent':
-    ensure => directory,
-    owner  => root,
-    group  => root,
-    mode   => '0755';
-  '/usr/local/share/mcollective/mcollective/agent/registration.rb':
-    source => 'puppet:///modules/mcollective_support/registration.rb',
-    owner  => root,
-    group  => root,
-    mode   => '0644';
-} -> Service['mcollective']
-mcollective::server::setting {
-  'registration':
-    value => 'Meta';
-  'registerinterval':
-    value => 1;
-} -> Service['mcollective']
+if $do_registration {
+  file {
+    '/usr/local/share/mcollective/mcollective/registration':
+      ensure => directory,
+      owner  => root,
+      group  => root,
+      mode   => '0755';
+    '/usr/local/share/mcollective/mcollective/registration/meta.rb':
+      source => 'puppet:///modules/mcollective_support/meta.rb',
+      owner  => root,
+      group  => root,
+      mode   => '0644';
+    '/usr/local/share/mcollective/mcollective/agent':
+      ensure => directory,
+      owner  => root,
+      group  => root,
+      mode   => '0755';
+    '/usr/local/share/mcollective/mcollective/agent/registration.rb':
+      source => 'puppet:///modules/mcollective_support/registration.rb',
+      owner  => root,
+      group  => root,
+      mode   => '0644';
+  } -> Service['mcollective']
+  mcollective::server::setting {
+    'registration':
+      value => 'Meta';
+    'registerinterval':
+      value => $registration_interval;
+  } -> Service['mcollective']
+}
 
 mcollective::client::setting {
   'plugin.rabbitmq.use_reply_exchange':
