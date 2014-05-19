@@ -41,6 +41,7 @@ rabbitmq_exchange { ['mcollective_broadcast@mcollective', 'mcollective_directed@
   type     => 'topic',
 }
 
+Class['apt::update'] ->
 class { '::mcollective':
   version             => '2.5.1-1puppetlabs1',
   client              => true,
@@ -51,4 +52,8 @@ class { '::mcollective':
   middleware_port     => '6163',
   rabbitmq_vhost      => 'mcollective',
 }
+->
+Class['lots_of_mcollective']
+
+include lots_of_mcollective
 
