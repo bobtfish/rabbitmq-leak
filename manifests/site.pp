@@ -6,3 +6,11 @@ class { '::rabbitmq':
   stomp_ensure => true
 }
 
+class { '::mcollective':
+  client            => true,
+  middleware_hosts => [ 'localhost' ],
+  connector        => 'rabbitmq',
+  middleware_user  => 'guest',
+  middleware_password => 'guest',
+}
+
