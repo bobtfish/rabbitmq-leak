@@ -1,6 +1,7 @@
 #!/bin/bash
 
-for i in $(seq 1 10); do
+COUNT=$1
+for i in $(seq 1 $COUNT); do
   cp /etc/mcollective/server.cfg /etc/mcollective/server.$i.cfg
   echo "identity = precise64-$i" >> /etc/mcollective/server.$i.cfg
   /usr/bin/ruby /usr/sbin/mcollectived --pid=/var/run/mcollectived.$i.pid --config=/etc/mcollective/server.$i.cfg
