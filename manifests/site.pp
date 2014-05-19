@@ -85,4 +85,8 @@ mcollective::server::setting {
     value => 1;
 } -> Service['mcollective']
 
+mcollective::client::setting {
+  'plugin.rabbitmq.use_reply_exchange':
+    value => 'true'
+}
 
