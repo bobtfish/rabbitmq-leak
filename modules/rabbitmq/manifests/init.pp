@@ -36,7 +36,6 @@ class rabbitmq(
   $ssl_stomp_port             = $rabbitmq::params::ssl_stomp_port,
   $ssl_verify                 = $rabbitmq::params::ssl_verify,
   $ssl_fail_if_no_peer_cert   = $rabbitmq::params::ssl_fail_if_no_peer_cert,
-  $stomp_ensure               = $rabbitmq::params::stomp_ensure,
   $ldap_auth                  = $rabbitmq::params::ldap_auth,
   $ldap_server                = $rabbitmq::params::ldap_server,
   $ldap_user_dn_pattern       = $rabbitmq::params::ldap_user_dn_pattern,
@@ -94,7 +93,6 @@ class rabbitmq(
   validate_re($ssl_management_port, '\d+')
   validate_string($ssl_stomp_port)
   validate_re($ssl_stomp_port, '\d+')
-  validate_bool($stomp_ensure)
   validate_bool($ldap_auth)
   validate_string($ldap_server)
   validate_string($ldap_user_dn_pattern)
@@ -132,15 +130,7 @@ class rabbitmq(
     }
 
     Class['::rabbitmq::service'] -> Class['::rabbitmq::install::rabbitmqadmin']
-  }
-
-  if $stomp_ensure {
-    rabbitmq_plugin { 'rabbitmq_stomp':
-      ensure  => $stomp_ensure,
-      require => Class['rabbitmq::install'],
-      notify  => Class['rabbitmq::service'],
-      provider => 'rabbitmqplugins'
-    }
+    Class['::rabbitmq::install::rabbitmqadmin'] -> Rabbitmq_exchange<| |>
   }
 
   if ($ldap_auth) {
@@ -164,6 +154,11 @@ class rabbitmq(
 
   # Make sure the various providers have their requirements in place.
   Class['::rabbitmq::install'] -> Rabbitmq_plugin<| |>
-  Class['::rabbitmq::install::rabbitmqadmin'] -> Rabbitmq_exchange<| |>
-
+  Class['::rabbitmq::service'] -> Rabbitmq_vhost<| |>
+  Class['::rabbitmq::service'] -> Rabbitmq_parameter<| |>
+  Class['::rabbitmq::service'] -> Rabbitmq_policy<| |>
+  Class['::rabbitmq::service'] -> Rabbitmq_federation_upstream<| |>
+  Class['::rabbitmq::service'] -> Rabbitmq_federation_upstreamset<| |>
+  
 }
+
