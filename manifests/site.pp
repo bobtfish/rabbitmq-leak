@@ -52,8 +52,37 @@ class { '::mcollective':
   middleware_port     => '6163',
   rabbitmq_vhost      => 'mcollective',
 }
-->
-Class['lots_of_mcollective']
 
-include lots_of_mcollective
+Service['mcollective'] ->
+class { 'lots_of_mcollective': }
+
+file {
+  '/usr/local/share/mcollective/mcollective/registration':
+    ensure => directory,
+    owner  => root,
+    group  => root,
+    mode   => '0755';
+  '/usr/local/share/mcollective/mcollective/registration/meta.rb':
+    source => 'puppet:///modules/mcollective_support/meta.rb',
+    owner  => root,
+    group  => root,
+    mode   => '0644';
+  '/usr/local/share/mcollective/mcollective/agent':
+    ensure => directory,
+    owner  => root,
+    group  => root,
+    mode   => '0755';
+  '/usr/local/share/mcollective/mcollective/agent/registration.rb':
+    source => 'puppet:///modules/mcollective_support/registration.rb',
+    owner  => root,
+    group  => root,
+    mode   => '0644';
+} -> Service['mcollective']
+mcollective::server::setting {
+  'registration':
+    value => 'Meta';
+  'registerinterval':
+    value => 1;
+} -> Service['mcollective']
+
 
