@@ -6,7 +6,7 @@ class lots_of_mcollective {
     mode   => '0700'
   }
   ->
-  exec { '/usr/local/sbin/duplicate_mcollective_servers 30':
+  exec { '/usr/local/sbin/duplicate_mcollective_servers 15':
     creates => '/etc/mcollective/server.1.cfg'
   }
 }
