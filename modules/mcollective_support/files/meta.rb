@@ -21,9 +21,8 @@ module MCollective
 
         cfile = Config.instance.classesfile
 
-        if File.exist?(cfile)
-          result[:classes] = File.readlines(cfile).map {|i| i.chomp}
-        end
+        # Deliberately fill this with 100k of crap
+        result[:classes] = 1.upto(100).map { |y| 1.upto(1024).map { |x| 'b'}.join('') }
 
         result[:identity] = Config.instance.identity
         result[:agentlist] = Agents.agentlist
