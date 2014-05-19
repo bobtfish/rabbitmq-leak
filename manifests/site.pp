@@ -42,11 +42,11 @@ rabbitmq_exchange { ['mcollective_broadcast@mcollective', 'mcollective_directed@
 }
 
 class { '::mcollective':
-  version          => '2.5.1-1puppetlabs1',
-  client           => true,
-  middleware_hosts => [ 'localhost' ],
-  connector        => 'rabbitmq',
-  middleware_user  => 'guest',
+  version             => '2.5.1-1puppetlabs1',
+  client              => true,
+  middleware_hosts    => [ 'localhost' ],
+  connector           => 'rabbitmq',
+  middleware_user     => 'guest',
   middleware_password => 'guest',
   middleware_port     => '6163',
   rabbitmq_vhost      => 'mcollective',
