@@ -1,9 +1,9 @@
-$no_of_mcollective_servers = 16
-$no_of_clients = 1
-$do_registration = false
-$registration_interval = 1 # 1 for stress test. Normally 300
+$no_of_mcollective_servers = 20
+$no_of_clients = 5
+$do_registration = true 
+$registration_interval = 30 # 1 for stress test. Normally 300
 $do_heartbeats = true
-$heartbeat_interval = 1 # 1 for stress test. Normally 60
+$heartbeat_interval = 5 # 1 for stress test. Normally 60
 
 include apt
 apt::source { 'puppetlabs':
