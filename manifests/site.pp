@@ -59,6 +59,10 @@ class { '::mcollective':
   rabbitmq_vhost      => 'mcollective',
 }
 
+# Override to ensure we have the version I'm actually running
+Package<| title == 'ruby-stomp' |> {
+  ensure => '1.2.10-1puppetlabs1'
+}
 Service['mcollective'] ->
 class { 'lots_of_mcollective':
   instances => $no_of_mcollective_servers;
