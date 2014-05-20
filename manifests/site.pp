@@ -7,7 +7,7 @@ $heartbeat_interval = 1 # 1 for stress test. Normally 60
 include apt
 apt::source { 'puppetlabs':
   location   => 'http://apt.puppetlabs.com',
-  repos      => 'main',
+  repos      => 'main dependencies',
   key        => '4BD6EC30',
   key_server => 'pgp.mit.edu',
 }
