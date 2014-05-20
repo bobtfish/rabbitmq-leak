@@ -4,9 +4,9 @@ Spin up the VM with a standrd _vagrant up_ command.
 
 This box contains:
 
-. RabbitMQ server + stomp
-. Mcollective server(s)
-. Mcollective client(s)
+  . RabbitMQ server + stomp
+  . Mcollective server(s)
+  . Mcollective client(s)
 
 so will come up and do an mcollective soak/stress test.
 
