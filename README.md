@@ -23,7 +23,7 @@ Expects to be run on virtualbox, but the only VB specific tweak
 is the memory (to 2Gb).
 
 Binds port 15672 (rabbitmq admin) to localhost so that you can
-browse to the management interface whilst the stress 
+browse to the management interface whilst the stress test runs.
 
 Log into the management interface with:
 
