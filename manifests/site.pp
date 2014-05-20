@@ -1,5 +1,8 @@
+$no_of_mcollective_servers = 16
 $do_registration = false
 $registration_interval = 1 # 1 for stress test. Normally 300
+$do_heartbeats = true
+$heartbeat_interval = 1 # 1 for stress test. Normally 60
 
 include apt
 apt::source { 'puppetlabs':
@@ -57,7 +60,9 @@ class { '::mcollective':
 }
 
 Service['mcollective'] ->
-class { 'lots_of_mcollective': }
+class { 'lots_of_mcollective':
+  instances => $no_of_mcollective_servers;
+}
 
 if $do_registration {
   file {
@@ -87,6 +92,19 @@ if $do_registration {
       value => 'Meta';
     'registerinterval':
       value => $registration_interval;
+  } -> Service['mcollective']
+}
+
+if $do_heartbeats {
+  mcollective::server::setting {
+   'plugin.rabbitmq.heartbeat_interval':
+     value => $heartbeat_interval;
+   'plugin.rabbitmq.stomp_1_0_fallback':
+     value => 0;
+   'plugin.rabbitmq.max_hbread_fails':
+     value => 2;
+   'plugin.rabbitmq.max_hbrlck_fails':
+     value => 2;
   } -> Service['mcollective']
 }
 
