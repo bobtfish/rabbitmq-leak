@@ -1,4 +1,5 @@
 $no_of_mcollective_servers = 16
+$no_of_clients = 1
 $do_registration = false
 $registration_interval = 1 # 1 for stress test. Normally 300
 $do_heartbeats = true
@@ -65,7 +66,8 @@ Package<| title == 'ruby-stomp' |> {
 }
 Service['mcollective'] ->
 class { 'lots_of_mcollective':
-  instances => $no_of_mcollective_servers;
+  instances => $no_of_mcollective_servers,
+  ping_instances => $no_of_clients;
 }
 
 if $do_registration {
