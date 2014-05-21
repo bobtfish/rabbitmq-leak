@@ -32,7 +32,8 @@ Log into the management interface with:
 
 Puppet code to set this box up is in manifests/site.pp
 
-There are a selection of tuneables to allow you to vary the number of
+There are a selection of tuneables (located in https://github.com/bobtfish/rabbitmq-leak/blob/master/manifests/site.pp)
+to allow you to vary the number of
 servers and clients, + the inerval for heartbeat and registration
 messages.
 
