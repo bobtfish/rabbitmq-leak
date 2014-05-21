@@ -1,6 +1,6 @@
 $no_of_mcollective_servers = 20
 $no_of_clients = 5
-$do_registration = true 
+$do_registration = false # Further experimentation shows this may make leaking faster (as more traffic) but is not necessary to demonstrate the leak
 $registration_interval = 30 # 1 for stress test. Normally 300
 $do_heartbeats = true
 $heartbeat_interval = 5 # 1 for stress test. Normally 60
